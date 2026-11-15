@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Révision TES — Vidéo numérique</title><link rel="icon" href="data:,"><style>
+:root{--bg:#eef1f7;--c:#fff;--t:#16213d;--m:#55607c;--a:#e8913a;--b:#25458a;--ok:#12805a;--ko:#c93a3a;--bd:#d5dae6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0e1322;--c:#18203a;--t:#e9edf8;--m:#9ba6c4;--b:#3d68d6;--ok:#3ecf95;--ko:#ff7b7b;--bd:#2b3556}}
+:root[data-theme=dark]{--bg:#0e1322;--c:#18203a;--t:#e9edf8;--m:#9ba6c4;--b:#3d68d6;--ok:#3ecf95;--ko:#ff7b7b;--bd:#2b3556}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+nav{display:flex;gap:6px;overflow-x:auto;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 12px;z-index:5}
+main{max-width:760px;margin:auto;padding:4px 12px 40px}
+button,select,input{font:inherit;min-height:44px;min-width:44px;border-radius:10px;border:1px solid var(--bd);background:var(--c);color:var(--t);padding:0 14px}
+button{cursor:pointer;white-space:nowrap}nav button.on,.pri{background:var(--b);color:#fff;border-color:var(--b)}
+section{display:none}section.on{display:block}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:12px 0}h3{margin:0 0 6px}
+.f{font-size:1.2rem;font-weight:700;background:var(--bg);border-left:4px solid var(--a);padding:8px 10px;border-radius:8px;margin:6px 0}
+.hid .f{filter:blur(9px);user-select:none}.tip{color:var(--m)}.warn{border-left:4px solid var(--ko)}
+.sch{width:100%;max-height:180px;display:block;margin:8px 0;color:var(--t)}.ok{color:var(--ok)}.ko{color:var(--ko)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.opt{display:block;width:100%;text-align:left;margin:6px 0;white-space:normal;padding:8px 14px}
+label{display:block;margin:6px 0}input[type=range]{width:100%;padding:0}
+.sw{width:92px;height:60px;border-radius:10px;display:grid;place-items:center;font-size:.8rem;color:#fff;text-shadow:0 0 3px #000}
+</style></head><body><nav id="nav"></nav><main><section id="fiche" class="on"></section><section id="labo"></section><section id="cartes"></section><section id="quiz"></section><section id="vf"></section><section id="calc"></section></main>
+<script>
+const $=s=>document.querySelector(s),I=(s,h)=>{$(s).innerHTML=h},ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),f=(x,n=2)=>x.toFixed(n).replace('.',',');
+const sv=b=>`<svg viewBox="0 0 200 90" class="sch" role="img" font-size="9" fill="currentColor">${b}</svg>`;
+const T=(x,y,s,a='middle',c='currentColor')=>`<text x="${x}" y="${y}" text-anchor="${a}" fill="${c}">${s}</text>`;
+const R=(x,y,w,h,c)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;
+const Bx=(x,y,w,h,s)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="none" stroke="currentColor"/>`+T(x+w/2,y+h/2+3,s);
+const ci=(x,y,c,m)=>`<circle cx="${x}" cy="${y}" r="24" fill="${c}" style="mix-blend-mode:${m}"/>`;
+
+let bl='',sg='',wp='',sd='',qb='',fm='',db='';
+[[8,0],[75,1],[142,2]].forEach(a=>{for(let k=0;k<6;k++)if(a[1]==2||k%2==a[1])bl+=R(a[0],12+k*9,50,5,k%2?'var(--b)':'var(--a)')});
+[['4:4:4','×3',[1,1,1,1],[1,1,1,1]],['4:2:2','×2',[1,0,1,0],[1,0,1,0]],['4:1:1','×1,5',[1,0,0,0],[1,0,0,0]],['4:2:0','×1,5',[1,0,1,0],[0,0,0,0]]].forEach((a,i)=>{const x=6+i*49;[a[2],a[3]].forEach((w,r)=>w.forEach((c,j)=>{sg+=`<rect x="${x+j*11}" y="${14+r*11}" width="10" height="10" fill="${c?'var(--a)':'none'}" stroke="currentColor"/>`}));sg+=T(x+22,50,a[0])+T(x+22,61,a[1])});
+const wy=x=>40-22*Math.sin((x-8)/20);
+for(let x=8;x<=192;x+=4)wp+=(x==8?'M':'L')+x+' '+wy(x)+' ';
+for(let x=8;x<=192;x+=18)sd+=`<path d="M${x} 66V${wy(x)}" stroke="var(--a)"/><circle cx="${x}" cy="${wy(x)}" r="2.5" fill="var(--a)"/>`;
+for(let k=0;k<8;k++){const v=Math.round(k*255/7);qb+=R(8+k*23,12,23,16,`rgb(${v},${v},${v})`)}
+for(let k=0;k<32;k++){const v=Math.round(k*255/31);qb+=R(8+k*5.75,44,5.75,16,`rgb(${v},${v},${v})`)}
+[['DVD, Blu-ray : 4:2:0 / 8 bits',60],['XDCAM HD422 : 4:2:2 / 8 bits',100],['P2 : 4:2:2 / 10 bits',140],['HDCAM SR : 4:4:4 / 10 bits',180]].forEach((a,i)=>fm+=T(8,14+i*21,a[0],'start')+R(8,17+i*21,a[1],4,i<2?'var(--m)':'var(--a)'));
+['pixels|2,07 M','× 2|4:2:2','× 25|images/s','× 10|bits','= débit|1,0368'].forEach((s,i)=>{const p=s.split('|');db+=Bx(4+i*39,22,36,24,p[0])+T(22+i*39,60,p[1])});
+const SC={
+def:sv(R(8,10,106,60,'var(--b)')+R(8,10,53,30,'var(--a)')+T(34,29,'Full HD','middle','#000')+T(61,58,'UHD 3840 × 2160','middle','#fff')+R(130,22,44,35,'var(--m)')+T(152,70,'SD 4/3 (720 × 576)')+T(8,84,'Full HD 1920 × 1080 : 4 fois moins de pixels que l’UHD','start')),
+bal:sv(T(100,9,'1080i50 : 50 trames/s = 25 images/s')+bl+T(33,80,'trame 1')+T(100,80,'trame 2')+T(167,80,'= 1 image')),
+rvb:sv(R(0,0,98,90,'#000')+ci(38,34,'#f00','screen')+ci(60,34,'#0f0','screen')+ci(49,54,'#00f','screen')+T(108,28,'3 données par pixel','start')+T(108,44,'8 bits : 0 à 255','start')+T(108,60,'255 0 0 = FF 00 00','start')+T(108,76,'24 bits = 3 octets','start')),
+yuv:sv(T(100,10,'Y = 0,299 R + 0,587 V + 0,114 B')+Bx(4,30,36,26,'R V B')+Bx(66,30,52,26,'matriçage')+Bx(150,20,44,18,'Y')+Bx(150,42,44,18,'U / Cb')+Bx(150,64,44,18,'V / Cr')+`<path d="M40 43h26M118 43h32" stroke="currentColor"/>`+T(100,89,'U = 0,492 (B−Y) · V = 0,877 (R−Y)')),
+ech:sv(`<path d="${wp}" fill="none" stroke="currentColor"/>`+sd+T(8,80,'74,25 MHz = 74 250 000 échantillons par seconde','start')),
+struct:sv(sg+T(100,78,'orange = chrominance conservée · Y partout')),
+quant:sv(qb+T(8,38,'3 bits : 8 niveaux','start')+T(8,72,'5 bits : 32 niveaux (plus de bits = plus fin)','start')),
+bin:sv(T(100,10,'1 octet = 8 bits = 2 chiffres hexa')+Bx(20,18,70,26,'0101')+Bx(110,18,70,26,'1111')+`<path d="M55 44v14M145 44v14" stroke="currentColor"/>`+Bx(20,58,70,24,'5')+Bx(110,58,70,24,'F')),
+debit:sv(T(100,12,'1080i50 · 4:2:2 · 10 bits')+db+T(100,82,'taille = débit × durée (s) ÷ 8 → 933,12 Go (2 h)')),
+fmt:sv(fm)};
+const N=[
+['def','Définition et ratio','Définition = lignes × points par ligne · Ratio = Largeur / Hauteur','Full HD 1920 × 1080 (2 073 600 pixels) · HD Ready 1280 × 720 · SD PAL 720 × 576 (4/3) · UHD 4K 3840 × 2160 · 8K 7680 × 4320 · DCI 4K 4096 × 2160. Conversion de ratio : squeeze (image déformée), letterbox (bandes noires), crop (image rognée). SD → HD = up-conversion, HD → SD = down-conversion.','Piège : 4K UHD (TV) ≠ 4K DCI (cinéma) : même nombre de lignes (2160), pas les mêmes points par ligne.'],
+['bal','Balayage et fréquence image','1080i50 : 1080 lignes · i = entrelacé · 50 trames/s = 25 images/s','Progressif (p) : toutes les lignes d’un coup. Entrelacé (i) : trame 1 = lignes impaires, trame 2 = lignes paires. 50i = 25 images/s · 50p = 50 images/s · 25p = 25 images/s. PAL 25 i/s (50 Hz) · NTSC 30 i/s (60 Hz) · cinéma 24 i/s.','Piège : « 50 » compte des trames, pas des images. Pour tes calculs, prends 25.'],
+['rvb','Couleur RVB','3 données par pixel : R, V, B (0 à 255 en 8 bits)','Synthèse additive : la caméra tri-CCD et les écrans travaillent en RVB. Couleur 24 bits = 3 octets : 144 238 144 = 90 EE 90. Problèmes du RVB : incompatible avec les TV noir et blanc, et les 3 composantes ont la même importance.','Astuce : R + V + B à fond = blanc.'],
+['yuv','YUV / YCbCr','Y = 0,299 R + 0,587 V + 0,114 B · U = 0,492 (B−Y) · V = 0,877 (R−Y)','Y = luminance (lue par les TV noir et blanc). U et V = différences de couleur. Numérique : Cb = 0,564 (B−Y), Cr = 0,713 (R−Y). Décodage : R = Y + 1,13983 V · Vert = Y − 0,39465 U − 0,58060 V · B = Y + 2,03211 U. Version simplifiée du cours : Vert = Y − U − V.','Piège : RVB → YUV ne perd rien. La perte vient du sous-échantillonnage.'],
+['ech','Échantillonnage','Fréquence d’échantillonnage HD : 74,25 MHz (pour Y)','Échantillonner = prélever des échantillons à intervalles réguliers. RVB : 3 × 74,25 = 222,75 MHz. YUV 4:2:2 : 74,25 + 37,125 + 37,125 = 148,5 MHz.','Piège : ne confonds pas 74,25 MHz (numérique) avec 50 Hz (balayage) et 25 images/s.'],
+['struct','Structure d’échantillonnage','4:4:4 → ×3 · 4:2:2 → ×2 · 4:1:1 et 4:2:0 → ×1,5','On garde tout Y et on supprime des échantillons de U et V (sous-échantillonnage chrominance). Facteur = (Y + U + V) ÷ 4. Le 4:2:0 réduit aussi en hauteur. Ce n’est pas de la compression : on supprime des échantillons, pas des données.','Astuce : l’œil voit moins la couleur que la luminance, donc ça ne se voit presque pas. Le sous-échantillonnage impose le codage YCbCr.'],
+['quant','Quantification','n bits → 2ⁿ niveaux, de 0 à 2ⁿ − 1','Quantifier = arrondir chaque échantillon. 8 bits = 256 niveaux [0–255] · 10 bits = 1 024 [0–1 023] · 12 bits = 4 096 · 14 bits = 16 384. Caméra : capteur 12 ou 14 bits, enregistrement en 10 ou 8. Au-delà du maximum (255 en 8 bits) : image cramée.','Piège : 256 niveaux, mais la plus grande valeur est 255.'],
+['bin','Binaire, octet, hexa','Octet = 8 bits = 256 valeurs · hexa : 0 à 9 puis A à F (A = 10 … F = 15)','Numérique = décrire avec des nombres ; binaire = le code qui les écrit. Un octet = 2 chiffres hexa : 0101 1111 = 5F ; 1111 1111 = FF = 255. Décimal : n chiffres → 10ⁿ valeurs.','Piège : B majuscule = octet, b minuscule = bit (10 Mb/s = 1,25 Mo/s).'],
+['debit','Débit et taille de fichier','Débit = pixels × facteur × images/s × bits','1080i50, 4:2:2, 10 bits : 1920 × 1080 × 2 × 25 × 10 = 1,0368 Gb/s. Taille = débit × durée (s) ÷ 8 : 2 h → 933,12 Go. En noir et blanc (1 octet par pixel) : 51 840 000 données/s, ≈ 373 Go pour 2 h (× 3 en RVB).','Piège : 25 images/s (pas 50), durée en secondes, ÷ 8, et n’arrondis jamais avant la fin.'],
+['fmt','Formats pro et grand public','Format = définition / images / balayage + structure / bits','DVD, Blu-ray, XDCAM HD : 4:2:0 / 8 bits · XDCAM HD422 : 4:2:2 / 8 bits · Panasonic P2 : 4:2:2 / 10 bits · HDCAM SR : 4:4:4 / 10 bits. PAD Arte : 4:2:2 en 1080i50. YouTube : 4:2:0, 8 bits.','Astuce : 4:2:2 / 10 bits = pro ; 4:2:0 / 8 bits = grand public.']];
+const corr=`<div class="card warn"><h3>⚠ Corrigé par rapport à ton cours</h3><p>• Partie II : « 2⁸ = 255 possibilités » est faux : 256 niveaux, la plus grande valeur est 255.<br>• Partie I : i = interlaced (pas « interleaved »).<br>• Partie I : « on parle aussi de résolution » : la résolution (DPI) est autre chose, dis « définition ».<br>• « 4:1:1 aux États-Unis, 4:2:0 en Europe » est une simplification : ça dépend de la norme (DV NTSC = 4:1:1, DV PAL = 4:2:0).<br>• Débit : l’étape 3 vaut 103 680 000 (pas 1 036 800 000). Volume : 373 milliards, pas 367 (arrondi trop tôt).</p><h3>À vérifier avec ton cours</h3><p class="tip">DCI « Panavision » 3996 × 2160 : la norme dit plutôt « Flat » · Nyquist : échantillonner à au moins 2 × la fréquence maximale · BT.709 (HD) : Y = 0,2126 R + 0,7152 V + 0,0722 B · en 8 bits vidéo, Y va de 16 à 235 · HD-SDI : 1,485 Gb/s (zones hors image comprises).</p></div>`;
+I('#fiche',`<div class="row"><button id="hf">Cacher les formules</button></div>`+N.map(n=>`<article class="card"><h3>${n[1]}</h3><div class="f">${n[2]}</div>${SC[n[0]]}<p>${n[3]}</p><p class="tip">💡 ${n[4]}</p></article>`).join('')+corr);
+$('#hf').onclick=()=>{const h=$('#fiche').classList.toggle('hid');$('#hf').textContent=h?'Montrer les formules':'Cacher les formules'};
+
+const sl=(id,l,mn,mx,v,s=1,fn)=>`<label>${l} : <b id="${id}x">${v}</b><input type="range" id="${id}" min="${mn}" max="${mx}" step="${s}" value="${v}" oninput="${fn}()"></label>`;
+I('#labo',`<div class="card"><h3>1. Débit et taille (1080i50)</h3><label>Structure <select id="st" onchange="L1()"><option value="3">4:4:4 (×3)</option><option value="2" selected>4:2:2 (×2)</option><option value="1.5">4:1:1 ou 4:2:0 (×1,5)</option></select></label>${sl('nb','Bits par échantillon',8,14,10,2,'L1')}${sl('du','Durée (minutes)',1,240,120,1,'L1')}<div id="o1"></div></div>
+<div class="card"><h3>2. Quantification</h3>${sl('qn','Nombre de bits',1,10,3,1,'L2')}<div id="o2"></div></div>
+<div class="card"><h3>3. Couleur 24 bits</h3>${sl('r','Rouge',0,255,144,1,'L3')}${sl('v','Vert',0,255,238,1,'L3')}${sl('b','Bleu',0,255,144,1,'L3')}<div id="o3"></div></div>`);
+function L1(){const k=+$('#st').value,n=+$('#nb').value,m=+$('#du').value,d=1920*1080*k*25*n,o=d*m*60/8;I('#o1',`<p>Débit = 1920 × 1080 × ${String(k).replace('.',',')} × 25 × ${n} = <b>${f(d/1e9,4)} Gb/s</b></p><p>Taille (${m} min) = <b>${f(o/1e9,2)} Go</b></p>`)}
+function L2(){const n=+$('#qn').value,k=2**n,s=Math.min(k,64);let b='';for(let i=0;i<s;i++){const v=Math.round(i*255/(s-1));b+=R(i*(200/s),0,200/s+.3,24,`rgb(${v},${v},${v})`)}I('#o2',`<svg viewBox="0 0 200 24" class="sch">${b}</svg><p>${n} bit(s) = 2<sup>${n}</sup> = <b>${k} niveaux</b>, de 0 à ${k-1}.</p>`)}
+function L3(){const a=[+$('#r').value,+$('#v').value,+$('#b').value],h=a.map(x=>x.toString(16).toUpperCase().padStart(2,'0'));I('#o3',`<div class="sw" style="background:rgb(${a})">couleur</div><p>${a.join(' ')} = <b>${h.join(' ')}</b> (#${h.join('')})<br>Rouge en binaire : ${a[0].toString(2).padStart(8,'0')}</p>`)}
+L1();L2();L3();
+document.addEventListener('input',e=>{const x=$('#'+e.target.id+'x');if(x)x.textContent=e.target.value});
+const C=[['Full HD : définition ?','1920 × 1080 (lignes × points par ligne)','def'],['Que veut dire 1080i50 ?','1080 lignes · i = entrelacé · 50 trames/s = 25 images/s','bal'],['Image et trame ?','En entrelacé, 1 image = 2 trames (lignes impaires puis paires)','bal'],['Formule de Y ?','Y = 0,299 R + 0,587 V + 0,114 B','yuv'],['Pourquoi le YUV ?','Y est lu par les TV noir et blanc, et on peut réduire U et V car l’œil voit moins la couleur','yuv'],['Fréquence d’échantillonnage HD ?','74,25 MHz pour Y (37,125 MHz pour U et V en 4:2:2)','ech'],['Facteurs 4:4:4 / 4:2:2 / 4:1:1 ?','×3 / ×2 / ×1,5 (le 4:2:0 aussi ×1,5)','struct'],['8 bits et 10 bits : combien de niveaux ?','256 [0–255] et 1 024 [0–1 023]','quant'],['Binaire → hexa ?','On coupe l’octet en 2 groupes de 4 bits : 0101 1111 = 5F','bin'],['Débit 1080i50 4:2:2 10 bits ?','1920 × 1080 × 2 × 25 × 10 = 1,0368 Gb/s','debit']];
+let cq,cn,fl;
+function cInit(){cq=C.map((_,i)=>i);cn=0;fl=0;cShow()}
+function cShow(){if(!cq.length){I('#cartes','<div class="card"><h3>Bravo 🎉</h3><p>Toutes les cartes sont sues.</p><button class="pri" onclick="cInit()">Recommencer</button></div>');return}
+const c=C[cq[cn%cq.length]];I('#cartes',`<p>${cq.length} carte(s) à apprendre</p><div class="card" onclick="fl=!fl;cShow()" style="min-height:150px;cursor:pointer"><h3>${fl?'Réponse':'Question'}</h3><div class="f">${fl?c[1]:c[0]}</div>${fl?SC[c[2]]:'<p class="tip">Touche la carte pour la retourner.</p>'}</div>${fl?'<div class="row"><button class="pri" onclick="cA(1)">Je sais</button><button onclick="cA(0)">À revoir</button></div>':''}`)}
+function cA(ok){const i=cn%cq.length;if(ok){cq.splice(i,1);cn=i}else cn=i+1;fl=0;cShow()}
+cInit();
+
+const Q=[['Que veut dire « 50 » dans 1080i50 ?',['50 images/s','50 trames (balayages) par seconde','50 lignes'],1,'50 Hz = 50 balayages par seconde. En entrelacé, on divise par 2 : 25 images/s.','bal'],
+['1080i50 : combien d’images complètes par seconde ?',['25','50','100'],0,'50 trames ÷ 2 = 25 images/s.','bal'],
+['Combien de pixels dans du 1920 × 1080 ?',['2 073 600','1 920 000','20 736 000'],0,'1920 × 1080 = 2 073 600 pixels.','def'],
+['Le 4K UHD (TV) est-il le même que le 4K DCI (cinéma) ?',['Oui','Non : mêmes 2160 lignes, pas les mêmes points par ligne','Non : le DCI a moins de lignes'],1,'UHD = 3840 × 2160 ; DCI = 4096 × 2160.','def'],
+['Le passage RVB → YUV fait-il perdre des données ?',['Oui, toujours','Non : la perte vient du sous-échantillonnage','Seulement en 8 bits'],1,'Le matriçage est réversible (des maths). Ce sont les échantillons supprimés ensuite qui font perdre.','yuv'],
+['Qu’est-ce qu’on garde toujours en entier ?',['La chrominance','La luminance Y','Le bleu'],1,'On garde tout Y (le « 4 ») et on réduit U et V : l’œil voit moins les détails de couleur.','struct'],
+['Facteur du 4:2:2 ?',['×1,5','×2','×3'],1,'1 + 0,5 + 0,5 = 2.','struct'],
+['Combien de niveaux en 10 bits ?',['1 000','1 023','1 024'],2,'2¹⁰ = 1 024 niveaux, de 0 à 1 023.','quant'],
+['0101 1111 en hexadécimal ?',['5F','F5','95'],0,'0101 = 5 et 1111 = F.','bin'],
+['En couleur 24 bits, que vaut 255 0 0 ?',['Rouge pur','Vert pur','Blanc'],0,'255 0 0 = FF 00 00 : rouge à fond, vert et bleu à 0.','rvb'],
+['Débit d’une vidéo non compressée ?',['pixels × facteur × images/s × bits','pixels × images/s ÷ 8','facteur × bits'],0,'Ensuite, taille = débit × durée (s) ÷ 8.','debit'],
+['Norme PAD Arte : quelle structure en 1080i50 ?',['4:2:0','4:2:2','4:4:4'],1,'« 4:2:2 1080i50 ». Le 4:2:2 implique le codage YCbCr.','fmt'],
+['Le sous-échantillonnage est-il de la compression ?',['Oui','Non : il supprime des échantillons, pas des données','Seulement en 4:2:0'],1,'La compression supprime des données sans supprimer d’échantillons.','struct'],
+['10 Mb/s, c’est combien en octets par seconde ?',['1,25 Mo/s','10 Mo/s','80 Mo/s'],0,'1 octet = 8 bits : 10 ÷ 8 = 1,25.','bin']];
+let qs,qi,qc,qe;
+function qStart(l){qs=l;qi=0;qc=0;qe=[];qShow()}
+function qShow(){if(qi>=qs.length){I('#quiz',`<div class="card"><h3>Score : ${qc} / ${qs.length}</h3>${qe.length?`<button class="pri" onclick="qStart(qe.slice())">Refaire mes erreurs (${qe.length})</button> `:'<p class="ok">Sans faute 🎉</p>'}<button onclick="qStart(Q.slice())">Tout refaire</button></div>`);return}
+const q=qs[qi];I('#quiz',`<p>Question ${qi+1} / ${qs.length}</p><div class="card"><h3>${q[0]}</h3>${q[1].map((o,i)=>`<button class="opt" onclick="qA(${i})">${o}</button>`).join('')}<div id="qe"></div></div>`)}
+function qA(i){const q=qs[qi],ok=i==q[2];if(ok)qc++;else qe.push(q);document.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(j==q[2])b.style.borderColor='var(--ok)';else if(j==i)b.style.borderColor='var(--ko)'});
+I('#qe',`<p class="${ok?'ok':'ko'}"><b>${ok?'Bravo !':'Raté.'}</b> ${q[3]}</p>${SC[q[4]]}<button class="pri" onclick="qi++;qShow()">Suivant</button>`)}
+qStart(Q.slice());
+
+const VF=[['En 1080i50, il y a 50 images complètes par seconde.',0,'Non : 50 trames, donc 25 images.','bal'],['1080p25 donne 25 images complètes par seconde.',1,'Oui : en progressif, chaque balayage dessine toute l’image.','bal'],['La caméra filme en YUV.',0,'Non : elle capte en RVB. Le YUV est une conversion mathématique.','yuv'],['4:1:1 et 4:2:0 ont le même facteur (×1,5).',1,'Oui, mais pas la même répartition : 4:1:1 réduit en largeur, 4:2:0 en largeur et en hauteur.','struct'],['Avec 10 bits, les valeurs vont de 0 à 1 024.',0,'Non : de 0 à 1 023 (2ⁿ − 1). Le 0 compte.','quant'],['Un octet = 8 bits = 256 valeurs [0–255].',1,'Oui. B = octet, b = bit.','bin'],['Numérique et binaire, c’est synonyme.',0,'Non : numérique = décrire par des nombres ; binaire = le code qui écrit ces nombres.','bin'],['Une image cramée a ses pixels ramenés à 255 en 8 bits.',1,'Oui : tout ce qui dépasse le maximum est écrasé à 255, donc blanc.','quant'],['Gb/s et Go, c’est la même unité.',0,'Non : Gb/s = débit en bits par seconde ; Go = taille en octets.','debit'],['4:2:2 / 10 bits est plutôt pro, 4:2:0 / 8 bits plutôt grand public.',1,'Oui : P2 = 4:2:2 / 10 bits ; DVD et Blu-ray = 4:2:0 / 8 bits.','fmt']];
+I('#vf',VF.map((x,i)=>`<div class="card" id="vf${i}"><p><b>${x[0]}</b></p><div class="row"><button onclick="vA(${i},1)">Vrai</button><button onclick="vA(${i},0)">Faux</button></div><div></div></div>`).join(''));
+function vA(i,a){const x=VF[i],ok=a==x[1],d=$('#vf'+i);d.querySelectorAll('button').forEach(b=>b.disabled=true);d.lastElementChild.innerHTML=`<p class="${ok?'ok':'ko'}"><b>${ok?'Juste !':'Raté !'}</b> C’est ${x[1]?'vrai':'faux'}. ${x[2]}</p>${SC[x[3]]}`}
+
+const SF=[['4:4:4',3],['4:2:2',2],['4:1:1',1.5]],fc=x=>String(x).replace('.',',');
+const G=[()=>{const p=[[1920,1080],[1280,720],[720,576],[3840,2160]][ri(0,3)],a=p[0]*p[1];return[`Image de ${p[0]} × ${p[1]}. Combien de pixels ?`,a,'pixels',`${p[0]} × ${p[1]} = ${a}`,'def']},
+()=>{const s=SF[ri(0,2)],n=[8,10,12][ri(0,2)],a=1920*1080*s[1]*25*n/1e9;return[`1080i50 en ${s[0]}, ${n} bits, non compressé. Débit (en Gb/s) ?`,a,'Gb/s',`1920 × 1080 × ${fc(s[1])} × 25 × ${n} = ${f(a,4)} Gb/s`,'debit']},
+()=>{const h=ri(1,3),s=SF[ri(0,2)],a=1920*1080*s[1]*25*10*h*3600/8/1e9;return[`1080i50 en ${s[0]}, 10 bits, pendant ${h} h. Taille du fichier (en Go) ?`,a,'Go',`Débit × ${h*3600} s ÷ 8 = ${f(a,2)} Go`,'debit']},
+()=>{const n=ri(3,14),a=2**n;return[`Quantification sur ${n} bits : combien de niveaux ?`,a,'niveaux',`2<sup>${n}</sup> = ${a}`,'quant']},
+()=>{const x=ri(1,15),y=ri(0,15),a=x*16+y,h='0123456789ABCDEF';return[`Convertis l’hexa ${h[x]+h[y]} en décimal.`,a,'',`${h[x]} × 16 + ${h[y]} = ${x*16} + ${y} = ${a}`,'bin']},
+()=>{const r=ri(0,100)/100,v=ri(0,100)/100,b=ri(0,100)/100,a=.299*r+.587*v+.114*b;return[`R = ${f(r)}, V = ${f(v)}, B = ${f(b)}. Calcule Y.`,a,'',`Y = 0,299×${f(r)} + 0,587×${f(v)} + 0,114×${f(b)} = ${f(a,3)}`,'yuv']}];
+let cur;
+function gNew(){cur=G[ri(0,G.length-1)]();I('#calc',`<div class="card"><h3>${cur[0]}</h3><div class="row"><input id="ca" inputmode="decimal" placeholder="Ta réponse ${cur[2]}"><button class="pri" onclick="gChk()">Vérifier</button></div><div id="cr"></div></div><button onclick="gNew()">Autre exercice</button><p class="tip">Marge d’erreur acceptée : 2 %.</p>`)}
+function gChk(){const u=parseFloat($('#ca').value.replace(',','.')),a=cur[1];if(isNaN(u))return;const ok=Math.abs(u-a)<=Math.max(Math.abs(a)*.02,.005);I('#cr',`<p class="${ok?'ok':'ko'}"><b>${ok?'Correct !':'Pas tout à fait.'}</b> Réponse : ${f(a,3)} ${cur[2]}</p><p>${cur[3]}</p>${SC[cur[4]]}`)}
+gNew();
+/* NAV */
+const TB=[['fiche','Fiche'],['labo','Labo'],['cartes','Cartes'],['quiz','Quiz'],['vf','Vrai/Faux'],['calc','Calculs']];
+I('#nav',TB.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join('')+'<button id="th" aria-label="Mode clair ou sombre">◐</button>');
+function show(t){document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id==t));document.querySelectorAll('nav [data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t))}
+document.querySelectorAll('nav [data-t]').forEach(b=>b.onclick=()=>show(b.dataset.t));show('fiche');
+$('#th').onclick=()=>{const d=document.documentElement,dk=d.dataset.theme?d.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;d.dataset.theme=dk?'light':'dark'};
+</script></body></html>
